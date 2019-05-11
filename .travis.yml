@@ -1,0 +1,8 @@
+dist: xenial
+language: generic
+
+before_install:
+  - sudo apt-get install -y tcl8.4 tcl8.5 tcl8.6
+
+script:
+  - ./tests/run_tests.sh
