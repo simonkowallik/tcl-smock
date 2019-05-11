@@ -23,6 +23,9 @@ mynamespace::smock mynamespace::f2 bar baz "my data {more data}"
 mynamespace::f2 bar baz
 mynamespace::assert {[mynamespace::f2 bar baz] eq "my data {more data}"}
 
+# check if -verbose stops assert form producing output on success
+mynamespace::assert { [mynamespace::assert {[mynamespace::f2 bar baz] eq "my data {more data}"}] eq "" }
+
 mynamespace::assert { false ne true }
 mynamespace::assert { 1 }
 mynamespace::assert { true }
