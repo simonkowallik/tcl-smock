@@ -1,4 +1,8 @@
 # tcl-smock
+[![Travis Build Status](https://img.shields.io/travis/com/simonkowallik/tcl-smock/master.svg?label=travis%20build)](https://travis-ci.com/simonkowallik/tcl-smock)
+[![Releases](https://img.shields.io/github/release/simonkowallik/tcl-smock.svg)](https://github.com/simonkowallik/tcl-smock/releases)
+[![Commits since latest release](https://img.shields.io/github/commits-since/simonkowallik/tcl-smock/latest.svg)](https://github.com/simonkowallik/tcl-smock/commits)
+[![Latest Release](https://img.shields.io/github/release-date/simonkowallik/tcl-smock.svg?color=blue)](https://github.com/simonkowallik/tcl-smock/releases/latest)
 
 ## smock, a simple mock package
 I build smock for F5 iApp and iCall script function mocking to build basic unit tests.
