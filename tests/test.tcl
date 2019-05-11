@@ -12,9 +12,9 @@ mynamespace::smock mynamespace::f1 foo {data bar}
 mynamespace::f1 foo
 # enable verbose output
 mynamespace::smock_config {+verbose}
-# test assertions with verbose output which should produce 'assertion ok:...' messages
-mynamespace::assert { [string match "assertion ok:*" [mynamespace::assert {[mynamespace::f1 foo] eq [mynamespace::f1 foo]}] ] }
-mynamespace::assert { [string match "assertion ok:*" [mynamespace::assert {[mynamespace::f1 foo] eq {data bar}}] ] }
+# test assertions with verbose output which should produce 'assertion true:...' messages
+mynamespace::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq [mynamespace::f1 foo]}] ] }
+mynamespace::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq {data bar}}] ] }
 
 # disable verbosity
 mynamespace::smock_config -verbose

@@ -35,7 +35,7 @@ proc ::smock::init {ns args} {
 
     set fbody {if {![uplevel 1 expr $args]} {return -code error "assertion failed: $args"}}
     append fbody " elseif { \$${::smock::ns}::verbose }"
-    append fbody { { return -code ok "assertion ok: $args" } else {return -code ok {}}}
+    append fbody { { return -code ok "assertion true: $args" } else {return -code ok {}}}
     proc ${::smock::ns}::assert {args} $fbody
 
     set fbody "switch -- \$args { \"+verbose\" {set ::${::smock::ns}::verbose 1} \"-verbose\" {set ::${::smock::ns}::verbose 0} }"
