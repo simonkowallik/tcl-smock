@@ -1,11 +1,12 @@
-package provide smock 1.0
+package provide smock 2.0
 package require Tcl 8.4
 
 namespace eval ::smock {
-  # export init only
-  namespace export init
+  namespace export init assert config
   variable ::ns
   variable ::func
+  variable verbose
+  set verbose 0
 }
 proc ::smock::init {ns args} {
   set ::smock::ns $ns
@@ -40,5 +41,24 @@ proc ::smock::init {ns args} {
 
     set fbody "switch -- \$args { \"+verbose\" {set ::${::smock::ns}::verbose 1} \"-verbose\" {set ::${::smock::ns}::verbose 0} }"
     proc ${::smock::ns}::smock_config {args} $fbody
+  }
+}
+proc ::smock::assert {args} {
+  if {![uplevel 1 expr $args]} {
+    return -code error "assertion failed: $args"
+  } elseif { $::smock::verbose } {
+    return -code ok "assertion true: $args"
+  } else {
+    return -code ok {}
+  }
+}
+proc ::smock::config {args} {
+  switch -- $args {
+    "+verbose" {
+      set ::smock::verbose 1
+    }
+    "-verbose" {
+      set ::smock::verbose 0
+    }
   }
 }

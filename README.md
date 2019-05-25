@@ -24,7 +24,7 @@ pkgIndex.tcl smock.tcl
 
 # load package from current working directory
 % lappend auto_path "./"
-% package require smock 1.0
+% package require smock 2.0
 
 # init yournamespace with proc 'function'
 % smock::init yournamespace function [function2]
@@ -38,25 +38,25 @@ pkgIndex.tcl smock.tcl
 % some return value
 
 # assert
-% yournamespace::assert { true }
-% yournamespace::assert { false }
+% smock::assert { true }
+% smock::assert { false }
 assertion failed: { false }
 
-% yournamespace::assert { [yournamespace::function arg1 arg2] eq "some return value" }
-% yournamespace::assert { [yournamespace::function arg1 arg2] eq "test assert" }
+% smock::assert { [yournamespace::function arg1 arg2] eq "some return value" }
+% smock::assert { [yournamespace::function arg1 arg2] eq "test assert" }
 assertion failed: { [yournamespace::function arg1 arg2] eq "test assert" }
 
-% catch { yournamespace::assert { [yournamespace::function arg1 arg2] eq "test assert" } } catch_err
+% catch { smock::assert { [yournamespace::function arg1 arg2] eq "test assert" } } catch_err
 1
 % puts $catch_err
 assertion failed: { [yournamespace::function arg1 arg2] eq "test assert" }
 
 # enable successful assert output
-% yournamespace::smock_config +verbose
+% smock::config +verbose
 
-% yournamespace::assert { [yournamespace::function arg1 arg2] eq "some return value" }
+% smock::assert { [yournamespace::function arg1 arg2] eq "some return value" }
 assertion true: { [yournamespace::function arg1 arg2] eq "some return value" }
-% yournamespace::assert { true }
+% smock::assert { true }
 assertion true: { true }
 
 ```
@@ -138,9 +138,9 @@ That can get quite complicated and time consuming, which is where `smock` can sa
 Let's warp the last code block in a procedure `run_example` and save everything to `example.tcl`. Then enter `tclsh`.
 
 ```tcl
-# smock.tcl is one directory up, add that path and load smock 1.0
+# smock.tcl is one directory up, add that path and load smock 2.0
 lappend auto_path "../"
-package require smock 1.0
+package require smock 2.0
 
 # initialize mocking for namespace 'tmsh' with a single function 'show'
 smock::init tmsh show
@@ -176,13 +176,13 @@ Great, it works. Let's proceed with assertions.
 
 ```tcl
 # smock also provides you with assertions, so you can properly build tests
-tmsh::assert { [run_example] eq "sync_status_color says: blue, status is: lets wait for a little while" }
+smock::assert { [run_example] eq "sync_status_color says: blue, status is: lets wait for a little while" }
 
 # nothing happend?
-tmsh::assert { [run_example] eq "something we expect" }
+smock::assert { [run_example] eq "something we expect" }
 assertion failed: { [run_example] eq "something we expect" }
 
-# ok, so tmsh::assert { expr } it is! as run_example does not return the string "something we expect", it failed
+# ok, so smock::assert { expr } it is! as run_example does not return the string "something we expect", it failed
 ```
 Now let's test additional sync status colors (sync states):
 ```tcl
@@ -201,12 +201,12 @@ run_example
 sync_status_color says: red, status is: oh nooo, something is not right!
 
 # ok, that was epxected so tmsh:assert could look like this to express our expectation:
-tmsh::assert { [string match "*red*oh nooo*" [run_example]] }
+smock::assert { [string match "*red*oh nooo*" [run_example]] }
 
 # for more verbosity:
-tmsh::smock_config +verbose
+smock::config +verbose
 
-tmsh::assert { [string match "*red*oh nooo*" [run_example]] }
+smock::assert { [string match "*red*oh nooo*" [run_example]] }
 assertion true: { [string match "*red*oh nooo*" [run_example]] }
 ```
 
@@ -221,7 +221,7 @@ tmsh::smock tmsh::show /cm sync-status field-fmt {cm cmi-sync-status {
 }}
 
 # our assertion looks like this:
-tmsh::assert { [run_example] eq "sync_status_color says: , status is: oh nooo, something is not right!" }
+smock::assert { [run_example] eq "sync_status_color says: , status is: oh nooo, something is not right!" }
 can't read "extracted_color": no such variable
 
 # ouch? is our assertion broken?
@@ -248,7 +248,7 @@ proc sync_status_color {} {
 }
 
 # run our assertion:
-tmsh::assert { [run_example] eq "sync_status_color says: , status is: oh nooo, something is not right!" }
+smock::assert { [run_example] eq "sync_status_color says: , status is: oh nooo, something is not right!" }
 assertion true: { [run_example] eq "sync_status_color says: , status is: oh nooo, something is not right!" }
 
 # now run the example again
