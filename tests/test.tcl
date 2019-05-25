@@ -1,6 +1,6 @@
 # load package from ../
 lappend auto_path "../"
-package require smock 1.0
+package require smock 2.0
 
 
 
@@ -13,8 +13,8 @@ mynamespace::f1 foo
 # enable verbose output
 mynamespace::smock_config {+verbose}
 # test assertions with verbose output which should produce 'assertion true:...' messages
-mynamespace::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq [mynamespace::f1 foo]}] ] }
-mynamespace::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq {data bar}}] ] }
+smock::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq [mynamespace::f1 foo]}] ] }
+smock::assert { [string match "assertion true:*" [mynamespace::assert {[mynamespace::f1 foo] eq {data bar}}] ] }
 
 # disable verbosity
 mynamespace::smock_config -verbose
@@ -50,3 +50,8 @@ if { ! [catch {
 } err] } {
   return -code error "myOtherNS::assert { false } did not assert"
 }
+
+smock::assert { 1 }
+smock::config +verbose
+smock::assert { [string match "assertion true:*" [smock::assert { 1 }]] }
+
